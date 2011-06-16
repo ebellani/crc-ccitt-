@@ -29,9 +29,15 @@
 
 ;; [1] http://jk-technology.com/C_Unleashed/crcccitt.c
 
-#lang racket
+#lang at-exp racket
 
-(provide/contract [crc-ccitt-checksum (bytes? . -> . (integer-in 0 #xffff))])
+(require racket/contract
+         scribble/srcdoc)
+
+(require/doc racket/base
+             scribble/manual)
+
+;; (provide/contract [crc-ccitt-checksum (bytes? . -> . (integer-in 0 #xffff))])
 
 (define crc-table
   #( #x0000 #x1021 #x2042 #x3063 #x4084 #x50a5
@@ -77,6 +83,11 @@
      #xef1f #xff3e #xcf5d #xdf7c #xaf9b #xbfba
      #x8fd9 #x9ff8 #x6e17 #x7e36 #x4e55 #x5e74
      #x2e93 #x3eb2 #x0ed1 #x1ef0))
+
+(provide/doc
+ [proc-doc/names
+  crc-ccitt-checksum (bytes? . -> . (integer-in 0 #xffff))
+  (data) @{Determines the checksum of @racket[data].}])
 
 (define (crc-ccitt-checksum data)
   (bitwise-bit-field 
